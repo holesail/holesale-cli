@@ -1,4 +1,5 @@
-//require modules
+module.exports = function () {
+  //require modules
 const { exec } = require('child_process');
 const fs = require('fs');
 const Tail = require('tail').Tail;
@@ -74,3 +75,5 @@ exec(hyperServe + " > seed2.txt", (error2, stdout2, stderr2) => {
 
 
 
+
+}
