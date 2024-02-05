@@ -7,7 +7,7 @@ const execPromise = util.promisify(exec);
 
 //get user arguments
 const args = process.argv.slice(2);
-
+let port;
 if (args.length < 1) {
   console.error("No arguments provided. Try holesale-cli --help for a list of all arguments");
   process.exit(1);
@@ -30,6 +30,7 @@ for (const { key, value } of inputs) {
 
   if (key === "--expose") {
     hyperServe += `-l ${value} `;
+    port = value;
   }
 }
 
@@ -43,7 +44,7 @@ exec("hyper-cmd-util-keygen --gen_seed > seed.txt", (error, stdout, stderr) => {
   // Append the seed
   hyperServe += `--seed '${seed}'`;
 
-  console.log(seed);
+  //console.log(seed);
 
 // Generate seed and store in a file, then read the seed from the file
 exec(hyperServe + " > seed2.txt", (error2, stdout2, stderr2) => {
@@ -59,7 +60,8 @@ exec(hyperServe + " > seed2.txt", (error2, stdout2, stderr2) => {
     //console.log(seed2)
     if(seed2.length > 2){
       tail.unwatch();
-      console.log(seed2);
+      console.log(`Port ${port} is now connected to the cloud`);
+      console.log(`Seed: ${seed2}`)
       fs.unlinkSync("seed2.txt");
     }
   });
