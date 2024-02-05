@@ -19,7 +19,8 @@
     "node": "^20.0.0"
   },
   "dependencies": {
-    "install-hypertele": "npm install -g hypertele",
-    "install-cmd-utils": "npm install -g hyper-cmd-utils"
+    "hyper-cmd-utils": "^1.0.0",
+    "hypertele": "^1.1.2",
+    "tail": "^2.2.6"
   }
 }
