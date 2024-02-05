@@ -1,6 +1,6 @@
 {
-  "name": "holesale",
-  "version": "1.0.0",
+  "name": "holesale-cli",
+  "version": "1.0.1",
   "description": "A holepunch based decentralized ngrok alternative.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Codesamp-Rohan/holesale-cli"
+    "url": "git+https://github.com/Codesamp-Rohan/holesale-cli.git"
   },
   "keywords": [
     "holesale"
@@ -19,6 +19,7 @@
     "node": "^20.0.0"
   },
   "dependencies": {
+    "holesale-cli": "^1.0.1",
     "hyper-cmd-utils": "^1.0.0",
     "hypertele": "^1.1.2",
     "tail": "^2.2.6"
