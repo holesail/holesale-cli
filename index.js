@@ -6,6 +6,11 @@ const Tail = require('tail').Tail;
 const util = require('util');
 const execPromise = util.promisify(exec);
 
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
 //get user arguments
 const args = process.argv.slice(2);
 let port;
@@ -76,3 +81,31 @@ exec(hyperServe + " > seed2.txt", (error2, stdout2, stderr2) => {
 
 
 
+let user, pass;
+
+readline.question('Enter Username: ', (username) => {
+  user = username;
+  readline.question('Enter Password: ', (password) => {
+    pass = password;
+
+    // Check username and password here
+    if (user === 'admin' && pass === '123') {
+      console.log('You are logged in!');
+      saveToLogFile(user, pass);
+    } else {
+      console.log('Invalid username or password');
+    }
+
+    readline.close();
+  });
+});
+
+function saveToLogFile(username, password) {
+  const logData = `Username: ${username}, Password: ${password}\n`;
+
+  fs.appendFile('auth_logs.txt', logData, (err) => {
+    if (err) throw err;
+    console.log('Username and password saved to auth_logs.txt');
+ 
+  });
+}
