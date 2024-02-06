@@ -11,6 +11,74 @@ const readline = require('readline').createInterface({
   output: process.stdout,
 });
 
+let isLoggedin = false;
+
+
+
+
+
+
+const configFilePath = 'user_config.json';
+
+// Load existing user configuration from the file
+let userConfig = {};
+if (fs.existsSync(configFilePath)) {
+  const configFileContent = fs.readFileSync(configFilePath, 'utf8');
+  userConfig = JSON.parse(configFileContent);
+}
+
+let user, pass;
+
+// Check if user credentials exist in the configuration
+if (userConfig.username && userConfig.password) {
+  user = userConfig.username;
+  pass = userConfig.password;
+  authenticateUser();
+} else {
+  // Prompt for credentials if not found in the configuration
+  readline.question('Enter Username: ', (username) => {
+    user = username;
+    readline.question('Enter Password: ', (password) => {
+      pass = password;
+      readline.question('Enter domain: ', (domain) => {
+        dom = domain;
+
+      // Check username and password here
+      authenticateUser();
+
+      readline.close();
+    });
+  });
+});
+}
+
+function authenticateUser() {
+  // Check username and password here
+  if (user === 'admin' && pass === '123') {
+    isLoggedin = true;
+    console.log('You are logged in!');
+    saveToConfigFile(user, pass);
+  } else {
+    console.log('Invalid username or password');
+  }
+}
+
+function saveToConfigFile(username, password) {
+  const newConfig = { username, password };
+
+  // Save the new configuration to the file
+  fs.writeFileSync(configFilePath, JSON.stringify(newConfig, null, 2), 'utf8');
+  console.log('Username and password saved to user_config.json');
+}
+
+
+
+
+
+
+
+
+
 //get user arguments
 const args = process.argv.slice(2);
 let port;
@@ -39,6 +107,7 @@ for (const { key, value } of inputs) {
     port = value;
   }
 }
+if(isLoggedin){
 
 // Generate seed and store in a file, then read the seed from the file
 exec("hyper-cmd-util-keygen --gen_seed > seed.txt", (error, stdout, stderr) => {
@@ -77,35 +146,7 @@ exec(hyperServe + " > seed2.txt", (error2, stdout2, stderr2) => {
 });
 
 
-
-
-
-
-let user, pass;
-
-readline.question('Enter Username: ', (username) => {
-  user = username;
-  readline.question('Enter Password: ', (password) => {
-    pass = password;
-
-    // Check username and password here
-    if (user === 'admin' && pass === '123') {
-      console.log('You are logged in!');
-      saveToLogFile(user, pass);
-    } else {
-      console.log('Invalid username or password');
-    }
-
-    readline.close();
-  });
-});
-
-function saveToLogFile(username, password) {
-  const logData = `Username: ${username}, Password: ${password}\n`;
-
-  fs.appendFile('auth_logs.txt', logData, (err) => {
-    if (err) throw err;
-    console.log('Username and password saved to auth_logs.txt');
- 
-  });
 }
+
+
+
