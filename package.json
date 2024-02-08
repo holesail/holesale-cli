@@ -1,6 +1,6 @@
 {
   "name": "holesale-cli",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A holepunch based decentralized ngrok alternative.",
   "main": "index.js",
   "scripts": {
